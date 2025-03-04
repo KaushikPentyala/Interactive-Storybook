@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Interactive Storybook</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+        }
+
+        #story-container {
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            background-color: #fff;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="story-container">
+        <h1 id="story-title">The Enchanted Forest</h1>
+        <p id="story-text">You find yourself at the edge of an enchanted forest. Do you want to enter?</p>
+        <div id="choices">
+            <button onclick="choose('enter')">Enter the forest</button>
+            <button onclick="choose('leave')">Leave</button>
+        </div>
+    </div>
+    <script>
+        const storyText = {
+            start: "You find yourself at the edge of an enchanted forest. Do you want to enter?",
+            enter: "You bravely step into the forest. The trees whisper secrets, and you see a glowing path ahead. Do you follow it?",
+            leave: "You decide it's best to leave. As you walk away, you hear the forest calling you back. Do you want to return?",
+            follow: "You follow the glowing path and discover a hidden treasure! Congratulations, you are now rich!",
+            return: "You return to the forest, and this time you feel a sense of adventure. Do you want to explore deeper?",
+            explore: "You explore deeper into the forest and find a magical creature that grants you one wish. What do you wish for?",
+            wish: "You wish for happiness, and the creature smiles, granting you a lifetime of joy. You live happily ever after!"
+        };
+
+        function choose(option) {
+            const storyTextElement = document.getElementById("story-text");
+            const choicesElement = document.getElementById("choices");
+            let newText = "";
+
+            if (option === 'enter') {
+                newText = storyText.enter;
+                choicesElement.innerHTML = `
+                    <button onclick="choose('follow')">Follow the glowing path</button>
+                    <button onclick="choose('explore')">Explore deeper</button>
+                `;
+            } else if (option === 'leave') {
+                newText = storyText.leave;
+                choicesElement.innerHTML = `
+                    <button onclick="choose('return')">Return to the forest</button>
+                    <button onclick="choose('leave')">Leave again</button>
+                `;
+            } else if (option === 'follow') {
+                newText = storyText.follow;
+                choicesElement.innerHTML = `<button onclick="reset()">Start Over</button>`;
+            } else if (option === 'return') {
+                newText = storyText.return;
+                choicesElement.innerHTML = `
+                    <button onclick="choose('explore')">Explore deeper</button>
+                    <button onclick="reset()">Start Over</button>
+                `;
+            } else if (option === 'explore') {
+                newText = storyText.explore;
+                choicesElement.innerHTML = `
+                    <button onclick="choose('wish')">Make a wish</button>
+                    <button onclick="reset()">Start Over</button>
+                `;
+            } else if (option === 'wish') {
+                newText = storyText.wish;
+                choicesElement.innerHTML = `<button onclick="reset()">Start Over</button>`;
+            }
+
+            storyTextElement.innerText = newText;
+        }
+
+        function reset() {
+            const storyTextElement = document.getElementById("story -text");
+            const choicesElement = document.getElementById("choices");
+            storyTextElement.innerText = storyText.start;
+            choicesElement.innerHTML = `
+                <button onclick="choose('enter')">Enter the forest</button>
+                <button onclick="choose('leave')">Leave</button>
+            `;
+        }
+    </script>
+</body>
+</html>
